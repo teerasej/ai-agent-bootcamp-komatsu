@@ -1,6 +1,6 @@
 ---
 lab:
-    title: 'Explore AI Agent development (deprecated)'
+    title: 'Explore AI Agent development'
     description: 'Take your first steps in developing AI agents by exploring the Azure AI Agent service in the Microsoft Foundry portal.'
     islab: false
 ---
