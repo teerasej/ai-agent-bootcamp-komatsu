@@ -240,8 +240,10 @@ Now let's create a Python application that interacts with your agent programmati
     from azure.identity import DefaultAzureCredential
     import base64
     from pathlib import Path
-    
-    
+    from dotenv import load_dotenv
+
+    load_dotenv(override=False)
+
     def save_image(image_data, filename):
         """Save base64 image data to a file."""
         output_dir = Path("agent_outputs")
@@ -255,8 +257,8 @@ Now let's create a Python application that interacts with your agent programmati
             f.write(image_bytes)
         
         return str(filepath)
-    
-    
+
+
     def main():
         # Initialize the project client
         project_endpoint = os.environ.get("PROJECT_ENDPOINT")
@@ -340,8 +342,8 @@ Now let's create a Python application that interacts with your agent programmati
                                 print(f"\n[Agent generated an image]")
                         elif item.type == 'file':
                             print(f"\n[Agent created a file]")
-    
-    
+
+
     if __name__ == "__main__":
         main()
     ```
@@ -365,13 +367,35 @@ Now let's create a Python application that interacts with your agent programmati
 
 1. Open a terminal in VS Code (**Terminal > New Terminal**).
 
-1. Install the required packages:
+### Configure the Python virtual environment
 
+
+1. run the following commands to create and activate a virtual environment, then install the required packages:
+
+    **macOS / Linux:**
     ```bash
+    python -m venv labenv
+    source labenv/bin/activate
     pip install -r requirements.txt
     ```
 
-1. Run the application:
+    **Windows (PowerShell):**
+    ```powershell
+    python -m venv labenv
+    .\labenv\Scripts\Activate.ps1
+    pip install -r requirements.txt
+    ```
+2. Run the azure login command to authenticate your terminal session with Azure in Web browser:
+
+    ```bash
+    az login
+    ```
+
+3. After the browser show the "You have logged in" message, you can return to VS Code terminal.
+
+4. Check your subscription on the screen, press enter if it's correct, or type the number of the correct subscription if you have multiple, then press enter.
+
+5. Run the application:
 
     ```bash
     python agent_with_functions.py
