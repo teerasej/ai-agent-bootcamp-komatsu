@@ -172,15 +172,15 @@ If you already have installed the extension for Foundry, you can skip this secti
 
 1. Select **Extensions** from the left pane (or press **Ctrl+Shift+X**).
 
-1. In the search bar, type **Microsoft Foundry** and press Enter.
+1. In the search bar, type **AI Toolkit** and press Enter.
 
-1. Select the **Microsoft Foundry** extension from Microsoft and click **Install**.
+1. Select the **AI Toolkit** extension from Microsoft and click **Install**.
 
 1. After installation is complete, verify the extension appears in the primary navigation bar on the left side.
 
 ### Connect to your Foundry project
 
-1. In the VS Code sidebar, select the **Microsoft Foundry** extension icon.
+1. In the VS Code sidebar, select the **AI Toolkit** extension icon.
 
 1. In the My Resources view, select **Set Default Project**, select **Sign in to Azure...** and follow the authentication prompts.
 
