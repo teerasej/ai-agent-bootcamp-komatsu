@@ -24,7 +24,7 @@ Before starting this exercise, ensure you have:
 - [Python 3.13](https://www.python.org/downloads/) or later installed
 - [Git](https://git-scm.com/downloads) installed on your local machine
 
-## Install the AI Toolkit VS Code extension
+## Install the Microsoft Foundry VS Code extension
 
 Let's start by installing and setting up the VS Code extension.
 
@@ -32,17 +32,17 @@ Let's start by installing and setting up the VS Code extension.
 
 1. Select **Extensions** from the left pane (or press **Ctrl+Shift+X**).
 
-1. In the search bar, type **AI Toolkit** and press Enter.
+1. In the search bar, type **Microsoft Foundry** and press Enter.
 
-1. Select the **AI Toolkit** extension from Microsoft and click **Install**.
+1. Select the **Microsoft Foundry** extension from Microsoft and click **Install**.
 
 1. After installation is complete, verify the extension appears in the primary navigation bar on the left side of Visual Studio Code.
 
 ## Sign in to Azure and create a project
 
-Now you'll connect to your Azure resources and create a new AI Toolkit project.
+Now you'll connect to your Azure resources and create a new Microsoft Foundry project.
 
-1. In the VS Code sidebar, select the **AI Toolkit** extension icon.
+1. In the VS Code sidebar, select the **Microsoft Foundry** extension icon.
 
 1. In the Resources view, select **Sign in to Azure...** and follow the authentication prompts.
 
@@ -109,7 +109,7 @@ For this exercise, you'll use starter code that will help you connect to your Fo
 
 3. Create a new folder and choose **Select as Repository Destination**, then open the cloned repository when prompted.
 
-4. In the Explorer view, navigate to the **ai-agent-bootcamp-komatsu/labs/01-fundamental/Labfiles/03-build-agent-portal-and-vscode/python** folder to find the starter code for this exercise.
+4. In the Explorer view, navigate to the **labs/01-fundamental/Labfiles/03-build-agent-portal-and-vscode/python** folder to find the starter code for this exercise.
 
 5. Right-click on the **requirements.txt** file and select **Open in Integrated Terminal**.
 

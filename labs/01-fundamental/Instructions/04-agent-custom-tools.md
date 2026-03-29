@@ -104,23 +104,34 @@ For this exercise, you'll use starter code that will help you connect to your Fo
 
 1. Navigate to the **Welcome** tab in VS Code (you can open it by selecting **Help > Welcome** from the menu bar).
 
-1. Select **Clone git repository** and enter the URL of the starter code repository: `https://github.com/MicrosoftLearning/mslearn-ai-agents.git`
-
-1. Create a new folder and choose **Select as Repository Destination**, then open the cloned repository when prompted.
-
-1. In the Explorer view, navigate to the **Labfiles/02-agent-custom-tools/Python** folder to find the starter code for this exercise.
-
-1. Right-click on the **requirements.txt** file and select **Open in Integrated Terminal**.
-
-1. In the terminal, enter the following command to install the required Python packages in a virtual environment:
-
+1. Select **Clone git repository** and enter the URL of the starter code repository: 
     ```
+    https://github.com/teerasej/ai-agent-bootcamp-komatsu.git
+    ```
+
+2. Create a new folder and choose **Select as Repository Destination**, then open the cloned repository when prompted.
+   
+3. In the Explorer view, navigate to the **labs/01-fundamental/Labfiles/04-agent-custom-tools/Python** folder to find the starter code for this exercise.
+
+4. Right-click on the **requirements.txt** file and select **Open in Integrated Terminal**.
+
+5. In the terminal, enter the following command to install the required Python packages in a virtual environment:
+
+    **macOS / Linux:**
+    ```bash
+    python -m venv labenv
+    source labenv/bin/activate
+    pip install -r requirements.txt
+    ```
+
+    **Windows (PowerShell):**
+    ```powershell
     python -m venv labenv
     .\labenv\Scripts\Activate.ps1
     pip install -r requirements.txt
     ```
 
-1. Open the **.env** file, replace the **your_project_endpoint** placeholder with the endpoint for your project (copied from the project deployment resource in the Microsoft Foundry extension) and ensure that the MODEL_DEPLOYMENT_NAME variable is set to your model deployment name. Use **Ctrl+S** to save the file after making these changes.
+6. Open the **.env** file, replace the **your_project_endpoint** placeholder with the endpoint for your project (copied from the project deployment resource in the Microsoft Foundry extension) and ensure that the MODEL_DEPLOYMENT_NAME variable is set to your model deployment name. Use **Ctrl+S** to save the file after making these changes.
 
 Now you're ready to create an AI agent that uses MCP server tools to access external data sources and APIs.
 
