@@ -24,7 +24,7 @@ Before starting this exercise, ensure you have:
 - [Python 3.13](https://www.python.org/downloads/) or later installed
 - [Git](https://git-scm.com/downloads) installed on your local machine
 
-## Install the Microsoft Foundry VS Code extension
+## Install the AI Toolkit VS Code extension
 
 Let's start by installing and setting up the VS Code extension.
 
@@ -32,17 +32,17 @@ Let's start by installing and setting up the VS Code extension.
 
 1. Select **Extensions** from the left pane (or press **Ctrl+Shift+X**).
 
-1. In the search bar, type **Microsoft Foundry** and press Enter.
+1. In the search bar, type **AI Toolkit** and press Enter.
 
-1. Select the **Microsoft Foundry** extension from Microsoft and click **Install**.
+1. Select the **AI Toolkit** extension from Microsoft and click **Install**.
 
 1. After installation is complete, verify the extension appears in the primary navigation bar on the left side of Visual Studio Code.
 
 ## Sign in to Azure and create a project
 
-Now you'll connect to your Azure resources and create a new Microsoft Foundry project.
+Now you'll connect to your Azure resources and create a new AI Toolkit project.
 
-1. In the VS Code sidebar, select the **Microsoft Foundry** extension icon.
+1. In the VS Code sidebar, select the **AI Toolkit** extension icon.
 
 1. In the Resources view, select **Sign in to Azure...** and follow the authentication prompts.
 
@@ -76,7 +76,7 @@ In this task, you'll deploy a model from the Model Catalog to use with your agen
 
 1. In the Model Catalog, locate the **gpt-4.1** model (you can use the search bar to find it quickly).
 
-    ![Screenshot of the Model Catalog in the Foundry VS Code extension.](../Media/vs-code-model.png)
+    ![Screenshot of the Model Catalog in the Foundry VS Code extension.](./Media/vs-code-model.png)
 
 1. Select **Deploy** next to the gpt-4.1 model.
 
@@ -94,7 +94,7 @@ In this task, you'll deploy a model from the Model Catalog to use with your agen
 
 1. Right-click the name project deployment and select **Copy Project Endpoint**. You'll need this URL to connect your agent to the Foundry project in the next steps.
 
-   <img src="../Media/vs-code-endpoint.png" alt="Screenshot of copying the project endpoint in the Foundry VS Code extension." width="550">
+    <img src="./Media/vs-code-endpoint.png" alt="Screenshot of copying the project endpoint in the Foundry VS Code extension." width="550">
 
 ## Clone the starter code repository
 
@@ -102,23 +102,34 @@ For this exercise, you'll use starter code that will help you connect to your Fo
 
 1. Navigate to the **Welcome** tab in VS Code (you can open it by selecting **Help > Welcome** from the menu bar).
 
-1. Select **Clone git repository** and enter the URL of the starter code repository: `https://github.com/MicrosoftLearning/mslearn-ai-agents.git`
-
-1. Create a new folder and choose **Select as Repository Destination**, then open the cloned repository when prompted.
-
-1. In the Explorer view, navigate to the **Labfiles/07-agent-framework/Python** folder to find the starter code for this exercise.
-
-1. Right-click on the **requirements.txt** file and select **Open in Integrated Terminal**.
-
-1. In the terminal, enter the following command to install the required Python packages in a virtual environment:
-
+2. Select **Clone git repository** and enter the URL of the starter code repository: 
     ```
+    https://github.com/teerasej/ai-agent-bootcamp-komatsu.git
+    ```
+
+3. Create a new folder and choose **Select as Repository Destination**, then open the cloned repository when prompted.
+
+4. In the Explorer view, navigate to the **ai-agent-bootcamp-komatsu/labs/01-fundamental/Labfiles/03-build-agent-portal-and-vscode/python** folder to find the starter code for this exercise.
+
+5. Right-click on the **requirements.txt** file and select **Open in Integrated Terminal**.
+
+6. In the terminal, enter the following command to install the required Python packages in a virtual environment:
+
+    **macOS / Linux:**
+    ```bash
+    python -m venv labenv
+    source labenv/bin/activate
+    pip install -r requirements.txt
+    ```
+
+    **Windows (PowerShell):**
+    ```powershell
     python -m venv labenv
     .\labenv\Scripts\Activate.ps1
     pip install -r requirements.txt
     ```
 
-1. Open the **.env** file, replace the **your_project_endpoint** placeholder with the endpoint for your project (copied from the project deployment resource in the Microsoft Foundry extension) and ensure that the MODEL_DEPLOYMENT_NAME variable is set to your model deployment name. Use **Ctrl+S** to save the file after making these changes.
+7. Open the **.env** file, replace the **your_project_endpoint** placeholder with the endpoint for your project (copied from the project deployment resource in the Microsoft Foundry extension) and ensure that the MODEL_DEPLOYMENT_NAME variable is set to your model deployment name. Use **Ctrl+S** to save the file after making these changes.
 
 Now you're ready to create an AI agent that uses a custom tool to process expenses data.
 
@@ -208,23 +219,33 @@ Now you're ready to create an AI agent that uses a custom tool to process expens
 
 ## Run the app
 
-1. In the integrated terminal, enter the following command to run the application:
+1. Run the azure login command to authenticate your terminal session with Azure in Web browser:
+
+    ```bash
+    az login
+    ```
+
+2. After the browser show the "You have logged in" message, you can return to VS Code terminal.
+
+3. Check your subscription on the screen, press enter if it's correct, or type the number of the correct subscription if you have multiple, then press enter.
+
+4. In the integrated terminal, enter the following command to run the application:
 
     ```
    python agent-framework.py
     ```
 
-1. When asked what to do with the expenses data, enter the following prompt:
+5. When asked what to do with the expenses data, enter the following prompt:
 
     ```
    Submit an expense claim
     ```
 
-1. When the application has finished, review the output. The agent should have composed an email for an expenses claim based on the data that was provided.
+6. When the application has finished, review the output. The agent should have composed an email for an expenses claim based on the data that was provided.
 
     > **Tip**: If the app fails because the rate limit is exceeded. Wait a few seconds and try again. If there is insufficient quota available in your subscription, the model may not be able to respond.
 
-1. When you're finished, enter `deactivate` in the terminal to exit the Python virtual environment.
+7. When you're finished, enter `deactivate` in the terminal to exit the Python virtual environment.
 
 ## Summary
 
