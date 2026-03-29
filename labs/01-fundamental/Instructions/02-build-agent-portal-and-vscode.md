@@ -172,27 +172,27 @@ If you already have installed the extension for Foundry, you can skip this secti
 
 1. Select **Extensions** from the left pane (or press **Ctrl+Shift+X**).
 
-1. In the search bar, type **Microsoft Foundry** and press Enter.
+1. In the search bar, type **AI Toolkit** and press Enter.
 
-1. Select the **Microsoft Foundry** extension from Microsoft and click **Install**.
+1. Select the **AI Toolkit** extension from Microsoft and click **Install**.
 
 1. After installation is complete, verify the extension appears in the primary navigation bar on the left side.
 
 ### Connect to your Foundry project
 
-1. In the VS Code sidebar, select the **Microsoft Foundry** extension icon.
+1. In the VS Code sidebar, select the **AI Toolkit** extension icon.
 
-1. In the Resources view, select **Sign in to Azure...** and follow the authentication prompts.
+1. In the My Resources view, select **Set Default Project**, select **Sign in to Azure...** and follow the authentication prompts.
 
     > **Note**: You won't see this option if you're already signed in.
 
-1. After signing in, expand your subscription in the Resources view.
+2. After signing in, back to Visual Studio Code, then select your subscription in the dialog window.
 
-1. Locate and expand your Foundry resource, then find the project you created earlier (`it-support-agent-project`).
+3. Locate and expand your Foundry resource, then find the project you created earlier (`it-support-agent-project`).
 
-1. Right-click on your project and select **Set as active project**.
+4. (Optional) Right-click on your project and select **Set as active project**.
 
-1. Expand your project in the Resources view and verify you can see your `it-support-agent` listed under **Declarative gents**.
+5. Expand your project in the Resources view and verify you can see your `it-support-agent` listed under **Declarative gents**.
 
 ### Test your agent in VS Code
 
@@ -221,14 +221,14 @@ Now let's create a Python application that interacts with your agent programmati
 1. Enter the repository URL:
 
     ```
-    https://github.com/MicrosoftLearning/mslearn-ai-agents.git
+    https://github.com/teerasej/ai-agent-bootcamp-komatsu.git
     ```
 
 1. Choose a location on your local machine to clone the repository.
 
 1. When prompted, select **Open** to open the cloned repository in VS Code.
 
-1. Once the repository opens, select **File > Open Folder** and navigate to `mslearn-ai-agents/Labfiles/01-build-agent-portal-and-vscode/Python`, then click **Select Folder**.
+1. Once the repository opens, select **File > Open Folder** and navigate to `ai-agent-bootcamp-komatsu/labs/01-fundamental/Labfiles/02-build-agent-portal-and-vscode/Python`, then click **Select Folder**.
 
 1. In the Explorer pane, open the `agent_with_functions.py` file. You'll see it's currently empty.
 
@@ -240,8 +240,10 @@ Now let's create a Python application that interacts with your agent programmati
     from azure.identity import DefaultAzureCredential
     import base64
     from pathlib import Path
-    
-    
+    from dotenv import load_dotenv
+
+    load_dotenv(override=False)
+
     def save_image(image_data, filename):
         """Save base64 image data to a file."""
         output_dir = Path("agent_outputs")
@@ -255,8 +257,8 @@ Now let's create a Python application that interacts with your agent programmati
             f.write(image_bytes)
         
         return str(filepath)
-    
-    
+
+
     def main():
         # Initialize the project client
         project_endpoint = os.environ.get("PROJECT_ENDPOINT")
@@ -340,8 +342,8 @@ Now let's create a Python application that interacts with your agent programmati
                                 print(f"\n[Agent generated an image]")
                         elif item.type == 'file':
                             print(f"\n[Agent created a file]")
-    
-    
+
+
     if __name__ == "__main__":
         main()
     ```
@@ -365,13 +367,35 @@ Now let's create a Python application that interacts with your agent programmati
 
 1. Open a terminal in VS Code (**Terminal > New Terminal**).
 
-1. Install the required packages:
+### Configure the Python virtual environment
 
+
+1. run the following commands to create and activate a virtual environment, then install the required packages:
+
+    **macOS / Linux:**
     ```bash
+    python -m venv labenv
+    source labenv/bin/activate
     pip install -r requirements.txt
     ```
 
-1. Run the application:
+    **Windows (PowerShell):**
+    ```powershell
+    python -m venv labenv
+    .\labenv\Scripts\Activate.ps1
+    pip install -r requirements.txt
+    ```
+2. Run the azure login command to authenticate your terminal session with Azure in Web browser:
+
+    ```bash
+    az login
+    ```
+
+3. After the browser show the "You have logged in" message, you can return to VS Code terminal.
+
+4. Check your subscription on the screen, press enter if it's correct, or type the number of the correct subscription if you have multiple, then press enter.
+
+5. Run the application:
 
     ```bash
     python agent_with_functions.py
