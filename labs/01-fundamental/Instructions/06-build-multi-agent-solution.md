@@ -1,6 +1,6 @@
 ---
 lab:
-    title: 'Develop a multi-agent solution with Microsoft Foundry (deprecated)'
+    title: 'Develop a multi-agent solution with Microsoft Foundry'
     description: 'Learn to configure multiple agents to collaborate using Microsoft Foundry Agent Service'
     islab: false
 ---

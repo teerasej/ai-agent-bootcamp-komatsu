@@ -1,6 +1,6 @@
 ---
 lab:
-    title: 'Connect AI Agents to a remote MCP server (deprecated)'
+    title: 'Connect AI Agents to a remote MCP server'
     description: 'Learn how to integrate Model Context Protocol tools with AI agents'
     islab: false
 ---
