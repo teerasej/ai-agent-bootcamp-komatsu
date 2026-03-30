@@ -1,6 +1,7 @@
 import os
 import asyncio
 from dotenv import load_dotenv
+from agent_framework.devui import serve
 
 # Add references
 
@@ -96,26 +97,8 @@ async def main():
         instructions=PV_AGENT_INSTRUCTIONS,
         # Add tools list here
     ) as agent:
-        conversation_history = []
-
-        print("PV Agent is ready. Type 'quit' to exit.\n")
-
-        # Conversation loop
-        while True:
-            user_input = input("You: ").strip()
-            if user_input.lower() == "quit":
-                break
-            if not user_input:
-                continue
-
-            # Build context from recent history and send the message
-            recent_context = "\n".join(conversation_history[-8:])
-            response = await agent.run([f"{recent_context}\nUser: {user_input}"])
-            print(f"\nAgent: {response}\n")
-
-            conversation_history.append(f"User: {user_input}")
-            conversation_history.append(f"Agent: {response}")
-
+        return agent
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    agent = asyncio.run(main())
+    serve(entities=[agent], auto_open=True)
