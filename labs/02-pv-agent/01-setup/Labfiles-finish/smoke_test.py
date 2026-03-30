@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from agent_framework import Agent
 from agent_framework.azure import AzureOpenAIResponsesClient
 from azure.identity import AzureCliCredential
+from agent_framework.devui import serve
 
 
 async def main():
@@ -35,6 +36,9 @@ async def main():
         print(f"Agent response: {response}")
         print("\nSmoke test PASSED: Agent is working correctly!")
 
+    return agent
+
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    agent = asyncio.run(main())
+    serve(entities=[agent], auto_open=True)
