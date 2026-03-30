@@ -6,14 +6,14 @@ lab:
     islab: true
 ---
 
-# D3-M1: PV Agent — Workshop Architecture & Environment Setup
+# 1. D3-M1: PV Agent — Workshop Architecture & Environment Setup
 
 In this exercise, you'll set up everything you need to build a **Payment Voucher (PV) Agent** throughout the workshop. You'll create a Microsoft Foundry project, deploy a GPT-4.1 model, connect VS Code, configure your environment, and run a smoke test.
 
 
 > **Note**: Some of the technologies used in this exercise are in preview or in active development. You may experience some unexpected behavior, warnings, or errors.
 
-## Learning Objectives
+## 1.1. Learning Objectives
 
 By the end of this exercise, you'll be able to:
 
@@ -24,7 +24,7 @@ By the end of this exercise, you'll be able to:
 5. Configure runtime settings with environment variables
 6. Confirm that the deployed model is available and responding
 
-## Prerequisites
+## 1.2. Prerequisites
 
 Before starting this exercise, ensure you have:
 
@@ -34,7 +34,7 @@ Before starting this exercise, ensure you have:
 - [Git](https://git-scm.com/downloads) installed on your local machine
 - The **Microsoft Foundry** VS Code extension installed (covered in the steps below)
 
-## Scenario
+## 1.3. Scenario
 
 You are joining the **PV Agent** workshop. Before writing any code, you need a working development environment connected to Microsoft Foundry. The PV Agent you'll build will:
 
@@ -46,11 +46,11 @@ The agent does **not** approve requests, change budget limits, or interact direc
 
 ---
 
-## Part 1: Understand the PV Agent Architecture
+## 1.4. Part 1: Understand the PV Agent Architecture
 
 Before setting up any infrastructure, take a moment to understand what you're building.
 
-### PV Agent Boundaries
+### 1.4.1. PV Agent Boundaries
 
 The PV Agent sits between the user and the PV system:
 
@@ -77,7 +77,7 @@ Confirmation to user
 - Change budgets or project allocations
 - Access live financial systems directly (in this workshop)
 
-### Minimal PV Data Contract
+### 1.4.2. Minimal PV Data Contract
 
 The agent will collect and produce a JSON object following this structure:
 
@@ -117,11 +117,11 @@ The agent will collect and produce a JSON object following this structure:
 
 ---
 
-## Part 2: Create a Foundry Project
+## 1.5. Part 2: Create a Foundry Project
 
 Now let's create the Microsoft Foundry project that will host your PV Agent throughout this workshop.
 
-### Create your Foundry project
+### 1.5.1. Create your Foundry project
 
 1. In a web browser, open the [Foundry portal](https://ai.azure.com) at `https://ai.azure.com` and sign in using your Azure credentials.
 
@@ -147,11 +147,11 @@ Now let's create the Microsoft Foundry project that will host your PV Agent thro
 
 ---
 
-## Part 3: Deploy a GPT-4.1 Model
+## 1.6. Part 3: Deploy a GPT-4.1 Model
 
 With your project created, you'll now deploy the model your agent will use.
 
-### Discover and deploy GPT-4.1
+### 1.6.1. Discover and deploy GPT-4.1
 
 1. In the top navigation of the Foundry portal, select **Discover** > **Models**.
 
@@ -171,13 +171,13 @@ With your project created, you'll now deploy the model your agent will use.
 
 ---
 
-## Part 4: Install the Microsoft Foundry VS Code Extension
+## 1.7. Part 4: Install the Microsoft Foundry VS Code Extension
 
 You'll interact with your Foundry project directly from VS Code throughout this workshop.
 
 > **Skip this section** if you already have the Microsoft Foundry extension installed and signed in.
 
-### Install the extension
+### 1.7.1. Install the extension
 
 1. Open **Visual Studio Code** on your local machine.
 
@@ -189,7 +189,7 @@ You'll interact with your Foundry project directly from VS Code throughout this 
 
 1. Once installed, the extension icon will appear in the primary sidebar on the left.
 
-### Sign in and connect to your project
+### 1.7.2. Sign in and connect to your project
 
 1. Click the **Microsoft Foundry** extension icon in the sidebar.
 
@@ -203,11 +203,11 @@ You'll interact with your Foundry project directly from VS Code throughout this 
 
 ---
 
-## Part 5: Prepare Your Development Environment
+## 1.8. Part 5: Prepare Your Development Environment
 
 You'll now set up the local code repository and configure the environment variables.
 
-### Clone the starter repository
+### 1.8.1. Clone the starter repository
 
 1. In VS Code, open the Command Palette (**Ctrl+Shift+P** / **Cmd+Shift+P**).
 
@@ -223,7 +223,7 @@ You'll now set up the local code repository and configure the environment variab
 
 1. Right-click the folder and select **Open in Integrated Terminal**.
 
-### Configure the Python virtual environment
+### 1.8.2. Configure the Python virtual environment
 
 1. In the integrated terminal, run the following commands to create and activate a virtual environment, then install the required packages:
 
@@ -241,7 +241,7 @@ You'll now set up the local code repository and configure the environment variab
     pip install -r requirements.txt
     ```
 
-### Configure environment variables
+### 1.8.3. Configure environment variables
 
 1. In the `Labfiles/` folder, open the `.env.example` file.
 
@@ -262,11 +262,50 @@ You'll now set up the local code repository and configure the environment variab
 
 ---
 
-## Part 6: Smoke Test
+## 1.9. Part 6: Smoke Test
 
 Let's confirm that your environment is working before moving to the next module.
 
-### Test via VS Code extension
+### 1.9.1. Complete the smoke test script
+
+Before running the smoke test, complete the TODO sections in `smoke_test.py`.
+
+1. In the `Labfiles/` folder, open `smoke_test.py`.
+
+1. Find the comment `# Add references` and add these imports:
+
+    ```python
+    from agent_framework import Agent
+    from agent_framework.azure import AzureOpenAIResponsesClient
+    from azure.identity import AzureCliCredential
+    ```
+
+1. Find the comment `# Create and run the agent to test the connection` and add this block:
+
+    ```python
+    async with Agent(
+        client=AzureOpenAIResponsesClient(
+            credential=AzureCliCredential(),
+            deployment_name=model_deployment,
+            project_endpoint=project_endpoint,
+        ),
+        instructions="You are a helpful assistant.",
+    ) as agent:
+        response = await agent.run(
+            ["Hello! Are you available? Please confirm you are working correctly."]
+        )
+    ```
+
+1. Find the comment `# Print the response and confirm success` and add this block:
+
+    ```python
+    print(f"Agent response: {response}")
+    print("\nSmoke test PASSED: Agent is working correctly!")
+    ```
+
+1. Save the file.
+
+### 1.9.2. Test via VS Code extension
 
 1. In the Microsoft Foundry extension sidebar, expand **Agents** under your project.
 
@@ -274,13 +313,14 @@ Let's confirm that your environment is working before moving to the next module.
 
 1. Expand **Models** and confirm your `gpt-4.1` deployment is listed and shows as **Succeeded**.
 
-### Test via Python
+### 1.9.3. Test via Python
 
 1. In the terminal (with your virtual environment active), run the smoke test script:
 
     ```bash
     python smoke_test.py
     ```
+    > **Tip**: If you see an authentication error, run `az login` in the terminal and try again.
 
 1. You should see output similar to:
 
@@ -299,7 +339,7 @@ Let's confirm that your environment is working before moving to the next module.
 
 ---
 
-## Summary
+## 1.10. Summary
 
 In this exercise, you:
 
@@ -314,7 +354,7 @@ You are now ready to design and build the PV Agent in the next module (**D3-M2**
 
 ---
 
-## Clean Up
+## 1.11. Clean Up
 
 > **Do not delete your project yet** — you'll use it throughout the workshop (D3-M1 through D4).
 
