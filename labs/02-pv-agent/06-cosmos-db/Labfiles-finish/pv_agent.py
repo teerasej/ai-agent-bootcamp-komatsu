@@ -1,8 +1,11 @@
 import os
 import csv
+import json
+import uuid
 import asyncio
 from dotenv import load_dotenv
 from agent_framework.devui import serve
+from azure.cosmos import CosmosClient
 
 # Add references
 from agent_framework import tool, Agent
@@ -104,11 +107,32 @@ def get_project_budget(
 def submit_pv(
     pv_json: Annotated[str, Field(description="The complete PV JSON object as a string, with status set to ReadyForSubmission and all required fields filled")]
 ) -> str:
-    """Receive the completed PV JSON and prepare it for insertion into Azure Cosmos DB."""
-    print("\n--- PV Submission Received ---")
-    print(pv_json)
-    print("--- End of PV Submission ---\n")
-    return "PV submission received and ready for database insertion."
+    """Insert the completed PV JSON into Azure Cosmos DB."""
+    try:
+        # Parse the JSON string from the agent
+        pv_data = json.loads(pv_json)
+
+        # Extract the inner pv object if wrapped
+        document = pv_data.get("pv", pv_data)
+
+        # Cosmos DB requires a unique 'id' field at the document root
+        document["id"] = str(uuid.uuid4())
+
+        # Connect to Cosmos DB using the connection string
+        cosmos_client = CosmosClient.from_connection_string(os.getenv("COSMOS_CONNECTION_STRING"))
+        container = cosmos_client \
+            .get_database_client(os.getenv("COSMOS_DATABASE_NAME")) \
+            .get_container_client(os.getenv("COSMOS_CONTAINER_NAME"))
+
+        # Insert the document
+        container.create_item(body=document)
+
+        print(f"\n[Cosmos DB] Document inserted with id: {document['id']}\n")
+        return f"PV submitted successfully and stored in Azure Cosmos DB with id: {document['id']}"
+
+    except Exception as e:
+        print(f"\n[Cosmos DB] Insertion failed: {e}\n")
+        return f"PV submission failed: {str(e)}"
 
 
 async def main():
@@ -135,9 +159,6 @@ async def main():
         instructions=PV_AGENT_INSTRUCTIONS,
         tools=[get_project_budget, submit_pv],
     ) as agent:
-        
-
-
         return agent
 
 if __name__ == "__main__":

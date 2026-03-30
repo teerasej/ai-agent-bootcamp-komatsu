@@ -4,6 +4,9 @@ import asyncio
 from dotenv import load_dotenv
 from agent_framework.devui import serve
 
+# Add imports for Cosmos DB
+
+
 # Add references
 from agent_framework import tool, Agent
 from agent_framework.azure import AzureOpenAIResponsesClient
@@ -104,7 +107,8 @@ def get_project_budget(
 def submit_pv(
     pv_json: Annotated[str, Field(description="The complete PV JSON object as a string, with status set to ReadyForSubmission and all required fields filled")]
 ) -> str:
-    """Receive the completed PV JSON and prepare it for insertion into Azure Cosmos DB."""
+    """Insert the completed PV JSON into Azure Cosmos DB."""
+    # Replace the print stub below with real Cosmos DB insertion logic
     print("\n--- PV Submission Received ---")
     print(pv_json)
     print("--- End of PV Submission ---\n")
@@ -135,9 +139,6 @@ async def main():
         instructions=PV_AGENT_INSTRUCTIONS,
         tools=[get_project_budget, submit_pv],
     ) as agent:
-        
-
-
         return agent
 
 if __name__ == "__main__":
