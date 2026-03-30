@@ -1,0 +1,7 @@
+agent-framework-core==1.0.0rc5
+agent-framework-azure-ai==1.0.0rc5
+azure-ai-projects==2.0.1
+azure-identity>=1.19.0
+python-dotenv>=1.0.0
+opentelemetry-semantic-conventions-ai==0.4.13
+agent-framework-devui
