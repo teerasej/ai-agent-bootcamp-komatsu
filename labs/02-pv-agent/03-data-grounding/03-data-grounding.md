@@ -11,7 +11,6 @@ lab:
 
 In this exercise, you'll extend the PV Agent's output by adding a new field — `expense.budgetType` — without changing any application code. You'll achieve this purely by **tuning the agent instruction**, demonstrating how structured business rules can be grounded directly into an AI agent's behavior.
 
-This exercise takes approximately **30** minutes.
 
 > **Note**: Some of the technologies used in this exercise are in preview or in active development. You may experience some unexpected behavior, warnings, or errors.
 
@@ -119,6 +118,26 @@ Now that you've validated the instruction change in the portal, apply the same u
 
 
 ## Part 3: Run the agent
+
+### Configure the Python virtual environment
+
+1. In the integrated terminal, run the following commands to create and activate a virtual environment, then install the required packages:
+
+    **macOS / Linux:**
+    ```bash
+    python -m venv labenv
+    source labenv/bin/activate
+    pip install -r requirements.txt
+    ```
+
+    **Windows (PowerShell):**
+    ```powershell
+    python -m venv labenv
+    .\labenv\Scripts\Activate.ps1
+    pip install -r requirements.txt
+    ```
+
+### Run the agent
 
 1. In the terminal (with your virtual environment active), run:
 

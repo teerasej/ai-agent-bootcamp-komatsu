@@ -11,7 +11,6 @@ lab:
 
 In this exercise, you'll design the PV Agent's identity and conversation behavior. You'll write an agent instruction, define a conversation flow that collects PV fields from users, test it with multiple user stories in the Foundry portal, then implement the agent in Python using the Microsoft Agent Framework SDK.
 
-This exercise takes approximately **45** minutes.
 
 > **Note**: Some of the technologies used in this exercise are in preview or in active development. You may experience some unexpected behavior, warnings, or errors.
 
