@@ -99,9 +99,7 @@ The agent will collect and produce a JSON object following this structure:
     "project": {
       "projectName": "string",
       "budgetSummary": {
-        "monthlyBudget": 0,
-        "usedThisMonth": 0,
-        "remainingBudget": 0
+        "monthlyBudget": 0
       }
     },
     "approval": { "approverName": "string", "status": "Pending" },
