@@ -315,6 +315,7 @@ Now let's create a Python application that interacts with your agent programmati
             print("\n[Agent is thinking...]")
             response = openai_client.responses.create(
                 conversation=conversation.id,
+                # or use "agent_reference"     
                 extra_body={"agent": {"name": agent.name, "type": "agent_reference"}},
                 input=""
             )
