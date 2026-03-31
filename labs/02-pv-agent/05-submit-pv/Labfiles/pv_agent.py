@@ -125,10 +125,27 @@ async def main():
         # Add submit_pv to tools list
     ) as agent:
         
+        # return agent
 
+        conversation_history = []
+        print("PV Agent is ready. Type 'quit' to exit.\n")
 
-        return agent
+        # Conversation loop
+        while True:
+            user_input = input("You: ").strip()
+            if user_input.lower() == "quit":
+                break
+            if not user_input:
+                continue
+
+            # Build context from recent history and send the message
+            recent_context = "\n".join(conversation_history[-8:])
+            response = await agent.run([f"{recent_context}\nUser: {user_input}"])
+            print(f"\nAgent: {response}\n")
+
+            conversation_history.append(f"User: {user_input}")
+            conversation_history.append(f"Agent: {response}")
 
 if __name__ == "__main__":
     agent = asyncio.run(main())
-    serve(entities=[agent], auto_open=True)
+    # serve(entities=[agent], auto_open=True)
