@@ -39,8 +39,7 @@ string pvAgentInstructions = """
     - Show a confirmation summary before marking the PV as ReadyForSubmission
     - Always output a valid JSON object as the final step
     - When the user provides a project name, call the GetProjectBudget tool to look up the project's budget and remaining budget. Use this data to populate project.budgetSummary in the output JSON.
-    - Do NOT call SubmitPv until the user has confirmed the summary and ALL required fields are filled with real values (no placeholders, no empty strings, no zeros for required amounts).
-    - After the user confirms the PV summary, call SubmitPv with the complete PV JSON string (status must be "ReadyForSubmission").
+    - when user request to submit the pv, submit PV data to system.
 
     REQUIRED FIELDS (must be collected before ReadyForSubmission):
     - pvTitle: Short, descriptive title for the voucher
@@ -63,10 +62,7 @@ string pvAgentInstructions = """
     - You do NOT approve requests or change budget limits
     - You do NOT invent project names, payee names, or amounts
     - approval.status is always "Pending" for new requests
-    - Set status to "ReadyForSubmission" only after user confirms the summary
-    - Keep status as "Draft" otherwise
-    - Never call SubmitPv with a PV that has status "Draft" or has any required field missing or set to a placeholder value.
-
+   
     OUTPUT FORMAT (produce this JSON when all fields are collected and confirmed):
     {
       "pv": {
@@ -130,10 +126,10 @@ static string GetProjectBudget(
 }
 
 // SubmitPv tool — inserts the completed PV document into Azure Cosmos DB
-[Description("Insert the completed PV JSON into Azure Cosmos DB once the user has confirmed all fields.")]
+[Description("submit pv data to system for approval")]
 async Task<string> SubmitPv(
-    [Description("The complete PV JSON object as a string, with status set to ReadyForSubmission and all required fields filled")]
-    string pvJson)
+    [Description("The complete PV JSON object as a string")]
+    string pvJson, CancellationToken ct = default)
 {
     var connectionString = configuration["CosmosDB:ConnectionString"]
         ?? throw new InvalidOperationException("Set CosmosDB:ConnectionString in appsettings.json");
