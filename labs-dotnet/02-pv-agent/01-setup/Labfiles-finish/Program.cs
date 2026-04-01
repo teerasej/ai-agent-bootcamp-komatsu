@@ -1,8 +1,8 @@
-using Azure;
-using Azure.AI.OpenAI;
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.Configuration;
+using OpenAI;
 using OpenAI.Chat;
+using System.ClientModel;
 
 // Load configuration from appsettings.json
 var configuration = new ConfigurationBuilder()
@@ -22,10 +22,10 @@ Console.WriteLine($"Endpoint: {endpoint}");
 Console.WriteLine($"Model: {deploymentName}");
 Console.WriteLine();
 
-// Create and run the agent to test the connection
-AIAgent agent = new AzureOpenAIClient(
-    new Uri(endpoint),
-    new AzureKeyCredential(apiKey))
+// Use OpenAI client with Foundry project's OpenAI-compatible endpoint
+AIAgent agent = new OpenAIClient(
+    new ApiKeyCredential(apiKey),
+    new OpenAIClientOptions { Endpoint = new Uri(endpoint) })
     .GetChatClient(deploymentName)
     .AsAIAgent(
         instructions: "You are a helpful assistant.",
