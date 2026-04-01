@@ -83,7 +83,8 @@ string pvAgentInstructions = """
         "project": {
           "projectName": "...",
           "budgetSummary": {
-            "monthlyBudget": 0
+            "totalBudget": 0,
+            "remainingBudget": 0
           }
         },
         "approval": { "approverName": "...", "status": "Pending" },
@@ -94,8 +95,10 @@ string pvAgentInstructions = """
 
 // TODO: Define the GetProjectBudget tool function here.
 //       - Decorate the method with [Description("...")] to describe what it does
-//       - Add [Description("...")] to the project_name parameter as well
-//       - Read data/projects_budget.csv, find the matching row, and return budget info as a string
+//       - Add [Description("...")] to the projectName parameter as well
+//       - Read data/projects_budget.csv, find the matching row
+//       - Return a JSON string with exact numeric values, e.g.:
+//         {"projectName": "IT Internal", "totalBudget": 100000, "remainingBudget": 80000}
 //       Example signature:
 //       [Description("Look up the budget and remaining budget for a given project.")]
 //       static string GetProjectBudget([Description("The name of the project to look up")] string projectName) { ... }

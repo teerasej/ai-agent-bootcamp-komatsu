@@ -116,9 +116,9 @@ static string GetProjectBudget(
         string[] fields = lines[i].Split(',');
         if (nameIdx < fields.Length && fields[nameIdx].Trim().Equals(projectName.Trim(), StringComparison.OrdinalIgnoreCase))
         {
-            string budget = budgetIdx < fields.Length ? fields[budgetIdx].Trim() : "N/A";
-            string remaining = remainIdx < fields.Length ? fields[remainIdx].Trim() : "N/A";
-            return $"Project: {fields[nameIdx].Trim()}, Total Budget: {budget}, Remaining Budget: {remaining}";
+            string budget = budgetIdx < fields.Length ? fields[budgetIdx].Trim() : "0";
+            string remaining = remainIdx < fields.Length ? fields[remainIdx].Trim() : "0";
+            return $"{{\"projectName\": \"{fields[nameIdx].Trim()}\", \"totalBudget\": {budget}, \"remainingBudget\": {remaining}}}";
         }
     }
 
