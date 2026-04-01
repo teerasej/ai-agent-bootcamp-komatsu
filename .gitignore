@@ -1,5 +1,7 @@
 
 example-labs-instruction-and-files
+generate_presentation.py
+*.pptx
 
 # Python
 __pycache__/
