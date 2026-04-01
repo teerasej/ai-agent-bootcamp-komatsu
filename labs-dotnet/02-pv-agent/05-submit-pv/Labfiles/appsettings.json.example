@@ -1,0 +1,7 @@
+{
+  "AzureOpenAI": {
+    "Endpoint": "<your Foundry project endpoint>",
+    "DeploymentName": "<your model deployment name>",
+    "ApiKey": "<your Foundry project API key>"
+  }
+}
