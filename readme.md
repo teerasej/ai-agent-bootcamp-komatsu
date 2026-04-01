@@ -13,6 +13,8 @@
 
 ## Real World Workshop - PV & MA Agent
 
+View [Presentation](/presentation.pdf)
+
 ### Part 1 - Build a PV Agent
 1. [Setup Project](labs/02-pv-agent/01-setup/01-setup.md)
 2. [Agent Foundation](labs/02-pv-agent/02-agent-foundation/02-agent-foundation.md)
