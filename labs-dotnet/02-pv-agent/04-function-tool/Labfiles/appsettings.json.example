@@ -1,0 +1,7 @@
+{
+  "AzureOpenAI": {
+    "Endpoint": "YOUR_FOUNDRY_PROJECT_ENDPOINT",
+    "DeploymentName": "YOUR_MODEL_DEPLOYMENT_NAME",
+    "ApiKey": "YOUR_FOUNDRY_PROJECT_API_KEY"
+  }
+}
