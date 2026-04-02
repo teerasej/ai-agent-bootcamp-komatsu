@@ -1,0 +1,81 @@
+@page "/"
+@rendermode InteractiveServer
+@inject PVAgentService AgentService
+@inject IJSRuntime JS
+
+<h2>PV Agent — Payment Voucher Assistant</h2>
+
+<div class="chat-container">
+    <div class="chat-messages" id="chat-messages">
+        @foreach (var msg in _messages)
+        {
+            <div class="message @msg.Role.ToLower()">
+                <span class="role">@msg.Role</span>
+                <span class="content">@((MarkupString)msg.Content.Replace("\n", "<br/>"))</span>
+            </div>
+        }
+        @if (_isThinking)
+        {
+            <div class="message agent thinking">
+                <span class="role">Agent</span>
+                <span class="content">Thinking…</span>
+            </div>
+        }
+    </div>
+
+    <div class="chat-input">
+        <input @bind="_userInput"
+               @bind:event="oninput"
+               @onkeydown="OnKeyDown"
+               placeholder="Type your message and press Enter…"
+               disabled="@_isThinking" />
+        <button @onclick="SendMessage" disabled="@_isThinking">Send</button>
+    </div>
+</div>
+
+@code {
+    private string _userInput = string.Empty;
+    private bool _isThinking = false;
+
+    private record ChatMessage(string Role, string Content);
+    private List<ChatMessage> _messages = new();
+
+    // Send the user's message to the agent and display the response
+    private async Task SendMessage()
+    {
+        var input = _userInput.Trim();
+        if (string.IsNullOrEmpty(input)) return;
+
+        // Add user message to the UI and clear the input
+        _messages.Add(new ChatMessage("You", input));
+        _userInput = string.Empty;
+        _isThinking = true;
+        StateHasChanged();
+
+        // Scroll to the bottom so the latest message is visible
+        await JS.InvokeVoidAsync("scrollToBottom", "chat-messages");
+
+        // Send the message to the agent and get the response
+        try
+        {
+            string response = await AgentService.SendMessageAsync(input);
+            _messages.Add(new ChatMessage("Agent", response));
+        }
+        catch (Exception ex)
+        {
+            _messages.Add(new ChatMessage("Agent", $"⚠️ Error: {ex.Message}"));
+        }
+        finally
+        {
+            _isThinking = false;
+            StateHasChanged();
+            await JS.InvokeVoidAsync("scrollToBottom", "chat-messages");
+        }
+    }
+
+    private async Task OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !e.ShiftKey)
+            await SendMessage();
+    }
+}
