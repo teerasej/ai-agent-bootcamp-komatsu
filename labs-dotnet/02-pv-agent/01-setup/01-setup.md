@@ -287,18 +287,19 @@ Before running the smoke test, complete the TODO sections in `Program.cs`.
 1. Find the comment `// Add references` and add these using statements at the top of the file:
 
     ```csharp
-    using Azure;
-    using Azure.AI.OpenAI;
     using Microsoft.Agents.AI;
+    using Microsoft.Extensions.Configuration;
+    using OpenAI;
     using OpenAI.Chat;
+    using System.ClientModel;
     ```
 
 1. Find the comment `// Create and run the agent to test the connection` and add this block:
 
     ```csharp
-    AIAgent agent = new AzureOpenAIClient(
-        new Uri(endpoint),
-        new AzureKeyCredential(apiKey))
+    AIAgent agent = new OpenAIClient(
+        new ApiKeyCredential(apiKey),
+        new OpenAIClientOptions { Endpoint = new Uri(endpoint) })
         .GetChatClient(deploymentName)
         .AsAIAgent(
             instructions: "You are a helpful assistant.",
