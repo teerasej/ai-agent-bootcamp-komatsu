@@ -1,0 +1,12 @@
+{
+  "AzureOpenAI": {
+    "Endpoint": "https://your-project-endpoint/openai/v1",
+    "DeploymentName": "your-model-deployment-name",
+    "ApiKey": "your-api-key"
+  },
+  "CosmosDB": {
+    "ConnectionString": "AccountEndpoint=https://your-cosmos-account.documents.azure.com:443/;AccountKey=your-key;",
+    "DatabaseName": "pv-agent-db",
+    "ContainerName": "payment-vouchers"
+  }
+}
