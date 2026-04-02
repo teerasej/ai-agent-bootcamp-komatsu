@@ -16,17 +16,17 @@
 View [Presentation](/presentation.pdf)
 
 ### Part 1 - Build a PV Agent
-1. [Setup Project](labs/02-pv-agent/01-setup/01-setup.md)
-2. [Agent Foundation](labs/02-pv-agent/02-agent-foundation/02-agent-foundation.md)
-3. [Data Grounding via Agent Instruction](labs/02-pv-agent/03-data-grounding/03-data-grounding.md)
-4. [Function Call Tool for Budget Data Lookup](labs/02-pv-agent/04-function-tool/04-function-tool.md)
-5. [Submit PV to Azure Cosmos DB](labs/02-pv-agent/05-submit-pv/05-submit-pv.md)
-6. [Store PV Data in Azure Cosmos DB](labs/02-pv-agent/06-cosmos-db/06-cosmos-db.md)
+1. [Setup Project](labs-dotnet/02-pv-agent/01-setup/01-setup.md)
+2. [Agent Foundation](labs-dotnet/02-pv-agent/02-agent-foundation/02-agent-foundation.md)
+3. [Data Grounding via Agent Instruction](labs-dotnet/02-pv-agent/03-data-grounding/03-data-grounding.md)
+4. [Function Call Tool for Budget Data Lookup](labs-dotnet/02-pv-agent/04-function-tool/04-function-tool.md)
+5. [Submit PV to Azure Cosmos DB](labs-dotnet/02-pv-agent/05-submit-pv/05-submit-pv.md)
+6. [Store PV Data in Azure Cosmos DB](labs-dotnet/02-pv-agent/06-cosmos-db/06-cosmos-db.md)
 
 ### Part 2 - Build a MA Agent
-1. [MA Agent — Manager Assistant Setup & Agent Foundation](labs/03-ma-agent/01-setup/01-setup.md)
-2. [MA Agent — Function Tools for PV Review and Approval](labs/03-ma-agent/02-function-tools/02-function-tools.md)
-3. [MA Agent — Connect Function Tools to Azure Cosmos DB](labs/03-ma-agent/03-cosmos-db/03-cosmos-db.md)
+1. [MA Agent — Manager Assistant Setup & Agent Foundation](labs-dotnet/03-ma-agent/01-setup/01-setup.md)
+2. [MA Agent — Function Tools for PV Review and Approval](labs-dotnet/03-ma-agent/02-function-tools/02-function-tools.md)
+3. [MA Agent — Connect Function Tools to Azure Cosmos DB](labs-dotnet/03-ma-agent/03-cosmos-db/03-cosmos-db.md)
 
 ## References
 
