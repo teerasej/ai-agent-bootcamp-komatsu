@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PV Agent</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: #f0f2f5;
+    }
+
+    header {
+      background: #0078d4;
+      color: white;
+      padding: 14px 24px;
+      font-size: 1.05rem;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    #chat {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .message {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      max-width: 72%;
+    }
+
+    .message.user { align-self: flex-end; align-items: flex-end; }
+    .message.agent { align-self: flex-start; align-items: flex-start; }
+
+    .sender {
+      font-size: 0.72rem;
+      color: #666;
+      padding: 0 6px;
+    }
+
+    .bubble {
+      padding: 10px 16px;
+      border-radius: 14px;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .user .bubble {
+      background: #0078d4;
+      color: white;
+      border-bottom-right-radius: 3px;
+    }
+
+    .agent .bubble {
+      background: white;
+      border: 1px solid #dde1e7;
+      border-bottom-left-radius: 3px;
+    }
+
+    #input-area {
+      display: flex;
+      gap: 10px;
+      padding: 14px 24px;
+      background: white;
+      border-top: 1px solid #dde1e7;
+      flex-shrink: 0;
+    }
+
+    #user-input {
+      flex: 1;
+      padding: 10px 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    #user-input:focus { border-color: #0078d4; }
+    #user-input:disabled { background: #f5f5f5; }
+
+    #send-btn {
+      padding: 10px 22px;
+      background: #0078d4;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    #send-btn:hover:not(:disabled) { background: #106ebe; }
+    #send-btn:disabled { background: #aaa; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+  <header>PV Agent — Payment Voucher Assistant</header>
+  <div id="chat"></div>
+  <div id="input-area">
+    <input id="user-input" type="text" placeholder="Type a message and press Enter..." autofocus />
+    <button id="send-btn">Send</button>
+  </div>
+
+  <script>
+    // Persist a session ID in localStorage so the agent remembers conversation history
+    // across page refreshes. Each browser tab gets its own isolated session.
+    let sessionId = localStorage.getItem('pvSessionId');
+    if (!sessionId) {
+      sessionId = crypto.randomUUID();
+      localStorage.setItem('pvSessionId', sessionId);
+    }
+
+    const chatEl  = document.getElementById('chat');
+    const inputEl = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    // Append a message bubble and return the inner bubble element for streaming updates
+    function appendMessage(sender, type) {
+      const wrapper = document.createElement('div');
+      wrapper.className = `message ${type}`;
+
+      const senderEl = document.createElement('div');
+      senderEl.className = 'sender';
+      senderEl.textContent = sender;
+
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+
+      wrapper.appendChild(senderEl);
+      wrapper.appendChild(bubble);
+      chatEl.appendChild(wrapper);
+      chatEl.scrollTop = chatEl.scrollHeight;
+      return bubble;
+    }
+
+    async function sendMessage() {
+      const message = inputEl.value.trim();
+      if (!message) return;
+
+      inputEl.value = '';
+      sendBtn.disabled = true;
+      inputEl.disabled = true;
+
+      // Show the user's message immediately
+      appendMessage('You', 'user').textContent = message;
+
+      // Create an empty agent bubble that will be filled token by token
+      const agentBubble = appendMessage('PV Agent', 'agent');
+
+      try {
+        // POST the message to the /chat endpoint.
+        // The server responds with a Server-Sent Events (SSE) stream.
+        const response = await fetch('/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message, sessionId })
+        });
+
+        // Read the SSE stream incrementally with the Streams API
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+
+          // Split on newlines; keep the last (possibly incomplete) chunk in the buffer
+          const lines = buffer.split('\n');
+          buffer = lines.pop();
+
+          for (const line of lines) {
+            if (!line.startsWith('data: ')) continue;
+            const payload = line.slice(6).trim();
+            if (payload === '[DONE]') break;
+
+            // Each token is JSON-encoded — decode and append to the bubble
+            agentBubble.textContent += JSON.parse(payload);
+            chatEl.scrollTop = chatEl.scrollHeight;
+          }
+        }
+      } catch (err) {
+        agentBubble.textContent = 'Error: ' + err.message;
+      } finally {
+        sendBtn.disabled = false;
+        inputEl.disabled = false;
+        inputEl.focus();
+      }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
+  </script>
+</body>
+</html>
