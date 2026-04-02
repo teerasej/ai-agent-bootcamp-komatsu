@@ -1,0 +1,51 @@
+@page "/"
+@inject PVAgentService AgentService
+
+<h3>PV Agent — Web Chat</h3>
+
+<div style="border:1px solid #ccc; padding:16px; height:500px; overflow-y:auto; margin-bottom:12px; background:#fafafa;">
+    @foreach (var msg in _messages)
+    {
+        <div style="margin-bottom:10px;">
+            <strong style="color:@(msg.IsUser ? "#0066cc" : "#228B22")">@(msg.IsUser ? "You" : "Agent"):</strong>
+            <span style="white-space:pre-wrap;">@msg.Text</span>
+        </div>
+    }
+
+    @if (_isLoading)
+    {
+        <div><em>Agent is thinking…</em></div>
+    }
+</div>
+
+<form @onsubmit="SendMessage" style="display:flex; gap:8px;">
+    <input @bind="_userInput" @bind:event="oninput" placeholder="Type your message…"
+           disabled="@_isLoading" style="flex:1; padding:8px; font-size:14px;" />
+    <button type="submit" disabled="@(_isLoading || string.IsNullOrWhiteSpace(_userInput))"
+            style="padding:8px 20px; font-size:14px;">Send</button>
+</form>
+
+@code {
+    private readonly List<ChatMessage> _messages = new();
+    private string _userInput = string.Empty;
+    private bool _isLoading;
+
+    private async Task SendMessage()
+    {
+        if (string.IsNullOrWhiteSpace(_userInput)) return;
+
+        var userText = _userInput.Trim();
+        _userInput = string.Empty;
+        _messages.Add(new ChatMessage(true, userText));
+        _isLoading = true;
+        StateHasChanged();
+
+        // [TODO] Call AgentService.SendMessageAsync(userText) to get the agent's response,
+        //        then add it to _messages as a non-user message.
+
+        _isLoading = false;
+        StateHasChanged();
+    }
+
+    private record ChatMessage(bool IsUser, string Text);
+}
