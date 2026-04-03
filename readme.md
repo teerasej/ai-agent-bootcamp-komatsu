@@ -13,7 +13,7 @@
 
 ## Real World Workshop - PV & MA Agent
 
-View [Presentation](/presentation.pdf)
+View [Presentation](/presentation-dotnet.pdf)
 
 ### Part 1 - Build a PV Agent
 1. [Setup Project](labs-dotnet/02-pv-agent/01-setup/01-setup.md)
